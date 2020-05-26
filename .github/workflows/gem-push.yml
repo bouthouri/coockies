@@ -19,4 +19,5 @@ jobs:
         version: 2.6.x
     - name: install firebase cli
       run: curl -sL https://firebase.tools | bash
-    - run: echo "salam"
+    - run: fastlane ios build
+    - run: fastlane android build
