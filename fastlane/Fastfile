@@ -11,8 +11,7 @@ platform :ios do
         gym(scheme: 'coockies', workspace: './ios/coockies.xcworkspace')
         firebase_app_distribution(
             app: "1:533425593106:ios:29eed1ed1ff8b0f72071cb",
-            testers: "oussamabo@xtech.guru, oussama@bouthouri.com",
-            firebase_cli_path: "/usr/local/bin/firebase"
+            testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
         )
     end
 
@@ -32,8 +31,7 @@ platform :android do
         gradle(task: 'assemble', build_type: 'Release', project_dir: 'android/')
         firebase_app_distribution(
             app: "1:533425593106:android:2b04a636c4575c9e2071cb",
-            testers: "oussamabo@xtech.guru, oussama@bouthouri.com",
-            firebase_cli_path: "/usr/local/bin/firebase"
+            testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
         )
     end
 
