@@ -1,2 +1,3 @@
+ENV['MATCH_GIT_BASIC_AUTHORIZATION'] = 'b3c521a61ebb2da3c26f3f07d1eed96fe5703b78'
 git_url "git@github.com:bouthouri/certificats.git"
 type "development"

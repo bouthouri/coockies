@@ -7,7 +7,7 @@ platform :ios do
 
     desc "Build a new ios version"
     lane :build do
-        match(type: 'development', git_basic_authorization: Base64.strict_encode64("bouthouri:b3c521a61ebb2da3c26f3f07d1eed96fe5703b78"))
+        match(type: 'development')
         gym(scheme: 'coockies', workspace: './ios/coockies.xcworkspace')
         firebase_app_distribution(
             app: "1:533425593106:ios:29eed1ed1ff8b0f72071cb",
