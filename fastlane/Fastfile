@@ -31,7 +31,8 @@ platform :android do
         gradle(task: 'assemble', build_type: 'Release', project_dir: 'android/')
         firebase_app_distribution(
             app: "1:533425593106:android:2b04a636c4575c9e2071cb",
-            testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
+            testers: "oussamabo@xtech.guru, oussama@bouthouri.com",
+            firebase_cli_token: ENV["FIREBASE_TOKEN"]
         )
     end
 
