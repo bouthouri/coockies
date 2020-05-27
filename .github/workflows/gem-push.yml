@@ -19,13 +19,13 @@ jobs:
       with:
         ruby-version: 2.6
         
-    - run: bundle install
     - uses: actions/cache@v2
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-gems-
+    - run: bundle install
 
       
     - name: install firebase cli
@@ -38,10 +38,3 @@ jobs:
 
     - uses: c-hive/gha-yarn-cache@v1
     - run: yarn install
-      
-    - name: Run fastlane firebase_beta
-      env:
-        MATCH_GIT_BASIC_AUTHORIZATION: 'b3c521a61ebb2da3c26f3f07d1eed96fe5703b78'
-      run: |
-        bundle exec fastlane ios build
-        bundle exec fastlane android build
