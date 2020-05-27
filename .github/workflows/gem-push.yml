@@ -46,6 +46,5 @@ jobs:
           ${{ runner.os }}-yarn-
     - run: yarn install
       
-    - name: Start fastlane
     - run: bundle exec fastlane ios build
     - run: bundle exec fastlane android build
