@@ -47,6 +47,7 @@ jobs:
         key: yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           yarn-
-          
     - run: yarn install --frozen-lockfile
-    - run: echo "check caching working"
+      
+    - name: Run fastlane firebase_beta
+      run: bundle exec fastlane android build
