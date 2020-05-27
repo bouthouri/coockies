@@ -49,3 +49,4 @@ jobs:
           ${{ runner.os }}-yarn-
           
     - run: yarn install --frozen-lockfile
+    - run: echo "is caching working"
