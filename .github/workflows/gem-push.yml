@@ -51,3 +51,5 @@ jobs:
       
     - name: Run fastlane firebase_beta
       run: bundle exec fastlane android build
+      env: 
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
