@@ -46,5 +46,9 @@ jobs:
           ${{ runner.os }}-yarn-
     - run: yarn install
       
-    - run: bundle exec fastlane ios build
-    - run: bundle exec fastlane android build
+    - name: Run fastlane firebase_beta
+      env:
+        MATCH_GIT_BASIC_AUTHORIZATION: 'b3c521a61ebb2da3c26f3f07d1eed96fe5703b78'
+      run: |
+        bundle exec fastlane ios build
+        bundle exec fastlane android build
