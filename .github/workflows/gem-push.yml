@@ -16,6 +16,8 @@ jobs:
     - uses: webfactory/ssh-agent@v0.2.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - run: git config --global --add url."git@github.com:".insteadOf "https://github.com/"
+      
     - name: Set up Ruby 2.6
       uses: ruby/setup-ruby@v1
       with:
