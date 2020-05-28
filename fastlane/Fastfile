@@ -7,12 +7,34 @@ platform :ios do
 
     desc "Build a new ios version"
     lane :build do
-        match(type: 'development', readonly: is_ci)
-        gym(scheme: 'coockies', workspace: './ios/coockies.xcworkspace')
-        firebase_app_distribution(
-            app: "1:533425593106:ios:29eed1ed1ff8b0f72071cb",
-            testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
-        )
+        if ENV['CI']
+            create_keychain(
+                name: "keychain",
+                password: "123456",
+                default_keychain: true,
+                unlock: true,
+                timeout: 3600,
+                lock_when_sleeps: false
+            )
+            match(
+                keychain_name: "keychain",
+                keychain_password: "123456",
+                type: 'development'
+                readonly: is_ci
+            )
+            gym(scheme: 'coockies', workspace: './ios/coockies.xcworkspace')
+            firebase_app_distribution(
+                app: "1:533425593106:ios:29eed1ed1ff8b0f72071cb",
+                testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
+            )
+        else
+            match(type: 'development')
+            gym(scheme: 'coockies', workspace: './ios/coockies.xcworkspace')
+            firebase_app_distribution(
+                app: "1:533425593106:ios:29eed1ed1ff8b0f72071cb",
+                testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
+            )
+        end
     end
 
 
