@@ -19,7 +19,7 @@ platform :ios do
             match(
                 keychain_name: "keychain",
                 keychain_password: "123456",
-                type: 'development'
+                type: 'development',
                 readonly: is_ci
             )
             gym(scheme: 'coockies', workspace: './ios/coockies.xcworkspace')
