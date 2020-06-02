@@ -9,52 +9,46 @@ platform :ios do
     lane :build do
         if ENV['CI']
             create_keychain(
-                name: "keychain",
-                password: "123456",
+                name: #{ENV["KEY_CHAIN_NAME"]},
+                password: #{ENV["KEY_CHAIN_PASSWORD"]},
                 default_keychain: true,
                 unlock: true,
                 timeout: 3600,
                 lock_when_sleeps: false
             )
             match(
-                git_url: "git@github.com:bouthouri/certificats.git",
-                type: 'development',
-                keychain_name: "keychain",
-                keychain_password: "123456",
+                git_url: #{ENV["MATCH_GIT_URL"]},
+                type: #{ENV["MATCH_TYPE"]},
+                keychain_name: #{ENV["KEY_CHAIN_NAME"]},
+                keychain_password: #{ENV["KEY_CHAIN_PASSWORD"]},
                 readonly: is_ci
             )
             gym(
-                export_method: "development",
+                export_method: #{ENV["GYM_EXPORT_METHOD"]},
                 scheme: 'coockies',
                 workspace: './ios/coockies.xcworkspace'
             )
             firebase_app_distribution(
-                app: "1:533425593106:ios:29eed1ed1ff8b0f72071cb",
-                testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
+                app: #{ENV["IOS_APP_ID"]},
+                testers: #{ENV["IOS_TESTERS"]}
             )
         else
             match(
-                git_url: "git@github.com:bouthouri/certificats.git",
-                type: 'development',
+                git_url: #{ENV["MATCH_GIT_URL"]},
+                type: #{ENV["MATCH_TYPE"]},
             )
             gym(
-                export_method: "development",
+                export_method: #{ENV["GYM_EXPORT_METHOD"]},
                 scheme: 'coockies',
                 workspace: './ios/coockies.xcworkspace'
             )
             firebase_app_distribution(
-                app: "1:533425593106:ios:29eed1ed1ff8b0f72071cb",
-                testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
+                app: #{ENV["IOS_APP_ID"]},
+                testers: #{ENV["IOS_TESTERS"]}
             )
         end
     end
 
-
-  after_all do |lane|
-  end
-
-  error do |lane, exception|
-  end
 end
 
 platform :android do
@@ -67,19 +61,13 @@ platform :android do
         )
         gradle(
             task: 'assemble',
-            build_type: 'Release',
+            build_type:  #{ENV["GRADLE_BUILD_TYPE"]},
             project_dir: 'android/'
         )
         firebase_app_distribution(
-            app: "1:533425593106:android:2b04a636c4575c9e2071cb",
-            testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
+            app: #{ENV["ANDROID_APP_ID"]},
+            testers: #{ENV["ANDROID_TESTERS"]}
         )
     end
 
-
-  after_all do |lane|
-  end
-
-  error do |lane, exception|
-  end
 end
