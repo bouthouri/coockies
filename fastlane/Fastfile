@@ -17,19 +17,31 @@ platform :ios do
                 lock_when_sleeps: false
             )
             match(
+                git_url: "git@github.com:bouthouri/certificats.git",
+                type: 'development',
                 keychain_name: "keychain",
                 keychain_password: "123456",
-                type: 'development',
                 readonly: is_ci
             )
-            gym(scheme: 'coockies', workspace: './ios/coockies.xcworkspace')
+            gym(
+                export_method: "development",
+                scheme: 'coockies',
+                workspace: './ios/coockies.xcworkspace'
+            )
             firebase_app_distribution(
                 app: "1:533425593106:ios:29eed1ed1ff8b0f72071cb",
                 testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
             )
         else
-            match(type: 'development')
-            gym(scheme: 'coockies', workspace: './ios/coockies.xcworkspace')
+            match(
+                git_url: "git@github.com:bouthouri/certificats.git",
+                type: 'development',
+            )
+            gym(
+                export_method: "development",
+                scheme: 'coockies',
+                workspace: './ios/coockies.xcworkspace'
+            )
             firebase_app_distribution(
                 app: "1:533425593106:ios:29eed1ed1ff8b0f72071cb",
                 testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
@@ -49,8 +61,15 @@ platform :android do
 
     desc "Build a new android version"
     lane :build do
-        gradle(task: 'clean', project_dir: 'android/')
-        gradle(task: 'assemble', build_type: 'Release', project_dir: 'android/')
+        gradle(
+            task: 'clean',
+            project_dir: 'android/'
+        )
+        gradle(
+            task: 'assemble',
+            build_type: 'Release',
+            project_dir: 'android/'
+        )
         firebase_app_distribution(
             app: "1:533425593106:android:2b04a636c4575c9e2071cb",
             testers: "oussamabo@xtech.guru, oussama@bouthouri.com"
