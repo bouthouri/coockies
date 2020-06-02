@@ -2,9 +2,9 @@ name: Ruby Gem
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -12,55 +12,62 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: webfactory/ssh-agent@v0.2.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    - run: git config --global --add url."git@github.com:".insteadOf "https://github.com/"
-      
-    - name: Set up Ruby 2.6
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.6
-        
-    - uses: actions/cache@v2
-      with:
-        path: vendor/bundle
-        key: gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          gems-
-    - run: bundle install --deployment
+      - uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - run: git config --global --add url."git@github.com:".insteadOf "https://github.com/"
 
-      
-    - name: install firebase cli
-      run: curl -sL https://firebase.tools | bash
-      
-    - name: Setup NodeJs
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.20.1'
+      - name: Set up Ruby 2.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
 
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-      
-    - uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          yarn-
-    - run: yarn install --frozen-lockfile
-      
-    - name: Run fastlane ios platform
-      run: bundle exec fastlane ios build
-      env: 
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-      
-    - name: Run fastlane android platform
-      run: bundle exec fastlane android build
-      env: 
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            gems-
+      - run: bundle install --deployment
+
+      - name: install firebase cli
+        run: curl -sL https://firebase.tools | bash
+
+      - name: Setup NodeJs
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.20.1'
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-
+      - run: yarn install --frozen-lockfile
+
+      - name: Run fastlane ios platform
+        run: bundle exec fastlane ios build
+        env:
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_TYPE: ${{ secrets.MATCH_TYPE }}
+          KEY_CHAIN_NAME: ${{ secrets.KEY_CHAIN_NAME }}
+          KEY_CHAIN_PASSWORD: ${{ secrets.KEY_CHAIN_PASSWORD }}
+          GYM_EXPORT_METHOD: ${{ secrets.GYM_EXPORT_METHOD }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          IOS_APP_ID: ${{ secrets.IOS_APP_ID }}
+          IOS_TESTERS: ${{ secrets.IOS_TESTERS }}
+
+      - name: Run fastlane android platform
+        run: bundle exec fastlane android build
+        env:
+          GRADLE_BUILD_TYPE: ${{ secrets.GRADLE_BUILD_TYPE }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          ANDROID_APP_ID: ${{ secrets.ANDROID_APP_ID }}
+          ANDROID_TESTERS: ${{ secrets.ANDROID_TESTERS }}
