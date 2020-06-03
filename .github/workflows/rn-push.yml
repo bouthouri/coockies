@@ -31,13 +31,15 @@ jobs:
             gems-
       - run: bundle install --deployment
 
-      - name: install firebase cli
-        run: curl -sL https://firebase.tools | bash
-
       - name: Setup NodeJs
         uses: actions/setup-node@v1
         with:
           node-version: '10.20.1'
+          
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -61,7 +63,6 @@ jobs:
           KEY_CHAIN_NAME: ${{ secrets.KEY_CHAIN_NAME }}
           KEY_CHAIN_PASSWORD: ${{ secrets.KEY_CHAIN_PASSWORD }}
           GYM_EXPORT_METHOD: ${{ secrets.GYM_EXPORT_METHOD }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           IOS_APP_ID: ${{ secrets.IOS_APP_ID }}
           IOS_TESTERS: ${{ secrets.IOS_TESTERS }}
 
@@ -69,6 +70,5 @@ jobs:
         run: bundle exec fastlane android build
         env:
           GRADLE_BUILD_TYPE: ${{ secrets.GRADLE_BUILD_TYPE }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           ANDROID_APP_ID: ${{ secrets.ANDROID_APP_ID }}
           ANDROID_TESTERS: ${{ secrets.ANDROID_TESTERS }}
