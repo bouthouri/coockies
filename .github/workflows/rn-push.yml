@@ -1,4 +1,4 @@
-name: Ruby Gem
+name: React native pipeline
 
 on:
   push:
@@ -57,6 +57,7 @@ jobs:
         env:
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
           MATCH_TYPE: ${{ secrets.MATCH_TYPE }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           KEY_CHAIN_NAME: ${{ secrets.KEY_CHAIN_NAME }}
           KEY_CHAIN_PASSWORD: ${{ secrets.KEY_CHAIN_PASSWORD }}
           GYM_EXPORT_METHOD: ${{ secrets.GYM_EXPORT_METHOD }}
